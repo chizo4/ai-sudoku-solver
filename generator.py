@@ -20,14 +20,26 @@ class SudokuGenerator:
         '''
         Constructor for the board generator. Initialized with 9x9 array 
         filled with 0's. numsToAppend denotes the amount of numbers visible 
-        on the generated grid; varies with values of 8-12.
+        on the generated grid; varies with values of 7-9.
 
             Parameters:
                 self
         '''
         self.GRID_SIZE = 9
-        self.numsToAppend = np.random.randint(8,12)
+        self.numsToAppend = np.random.randint(7,10)
         self.genBoard = np.zeros((self.GRID_SIZE, self.GRID_SIZE), dtype=int)
+
+    def getGenBoard(self):
+        '''
+        Accessor for the generated board.
+
+            Parameters:
+                self
+
+            Returns:
+                genBoard (np.array) : Generated sudoku board.
+        '''
+        return self.genBoard
 
     def validate(self, coords, num):
         '''
@@ -37,6 +49,9 @@ class SudokuGenerator:
                 coords (tuple) : Tuple containing x and y coordinates.
                 num (int) : New integer to be inserted.
                 self
+
+            Returns:
+                boolean
         '''
         row = coords[0]
         col = coords[1]
