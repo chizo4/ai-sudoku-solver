@@ -2,7 +2,7 @@
 SUDOKU SOLVER PROJECT: AI bot implementing the backtracking 
                        algotrithm to solve sudoku.
 
-Date created:
+Date created (initial file of the project):
     12/2021
 
 Date modified:
@@ -14,7 +14,7 @@ Author:
 
 from time import time
 
-class Solver:
+class SudokuSolver:
     '''
     -----------
     Class to solve a sudoku board.
