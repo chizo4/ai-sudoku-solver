@@ -13,9 +13,9 @@ import numpy as np
 class SudokuGenerator:
     def __init__(self):
         '''
-        Constructor for the board generator. 
-        Initialized with 9x9 array filled with 0's.
-        numsToAppend denotes the amount of correct numbers visible on the grid.
+        Constructor for the board generator. Initialized with 9x9 array 
+        filled with 0's. numsToAppend denotes the amount of numbers visible 
+        on the generated grid; varies with values of 7-12.
 
             Parameters:
                 self
@@ -24,138 +24,56 @@ class SudokuGenerator:
         self.numsToAppend = np.random.randint(7,13)
         self.genBoard = np.zeros((self.GRID_SIZE, self.GRID_SIZE), dtype=int)
 
-    def validate(self, mesh, r, c, n):
+    def validate(self, coords, num):
         '''
-        X
+        Validates a new number to be added to the grid.
 
             Parameters:
+                coords (tuple) : Tuple containing x and y coordinates.
+                num (int) : New integer to be inserted.
                 self
         '''
-        # Check column.
-        for y in range(9):
-            if mesh[r][y]==n:
+        row = coords[0]
+        col = coords[1]
+
+        # Column validation.
+        for r in range(9):
+            if (self.genBoard[r][col]==num):
                 return False
 
-        # Check row.
-        for x in range(9):
-            if mesh[x][c] == n:
+        # Row validation.
+        for c in range(9):
+            if (self.genBoard[row][c]==num):
                 return False
 
-        rowSection = r//3
-        colSection = c//3
+        # Section validation.
+        secRow = row//3
+        secCol = col//3
 
-        for x in range(3):
-            for y in range(3):
-                # Section validation.
-                if mesh[rowSection*3+x][colSection*3+y]==n:
+        for r in range(3):
+            for c in range(3):
+                if (self.genBoard[secRow*3+r][secCol*3+c]==num):
                     return False
 
+        # If none of the conditions were fulfilled, validate the value.
         return True
 
     def runGenerator(self):
         '''
-        X
+        Generates a sudoku board, also calling validation functions.
 
             Parameters:
                 self
         '''
-        # Generate random values for the grid.
-        for i in range(self.numsToAppend):
-            row = np.random.randint(9)
-            col = np.random.randint(9)
+        for n in range(self.numsToAppend):
+            # Generate random integer 1-9 and coordinates for the grid.
             num = np.random.randint(1, 10)
-
-            while not self.validate(self.genBoard, row, col, num) or self.genBoard[row][col]!=0:
-                row = np.random.randint(9)
-                col = np.random.randint(9)
+            coords = (np.random.randint(9), np.random.randint(9))
+            
+            while (self.genBoard[coords[0]][coords[1]]!=0 or 
+                    not self.validate(coords, num)):
+                coords = (np.random.randint(9), np.random.randint(9))
                 num = np.random.randint(1, 10)
 
-            self.genBoard[row][col] = num
-
-        
-
-
-
-# testing --->
-
-test = SudokuGenerator()
-#test.runGenerator()
-
-test.runGenerator()
-
-print(test.genBoard)
-
-#print(test.runGenerator())
-
-
-# till here <---
-
-
-
-
-
-
-
-# TEMPORARILY
-#appendedNums = 8
-#GRID_SIZE = 9
-#grid = np.zeros((GRID_SIZE, GRID_SIZE), dtype=int)
-
-# Validation.
-def validate(mesh, r, c, n):
-    #valid = True
-
-    # Check row and column.
-    for x in range(9):
-        if mesh[x][c] == n:
-            #valid = False
-            #break
-            return False
-
-    for y in range(9):
-        if mesh[r][y] == n:
-            return False
-            #valid = False
-            #break
-
-    rowSection = r//3
-    colSection = c//3
-
-    for x in range(3):
-        for y in range(3):
-            # Section validation.
-            if mesh[rowSection*3+x][colSection*3+y]==n:
-                #valid = False
-                #break
-                return False
-
-    #return valid
-    return True
-
-# Generate random values for the grid.
-'''for i in range(appendedNums):
-    row = np.random.randint(9)
-    col = np.random.randint(9)
-    num = np.random.randint(1, 10)
-
-    while not validate(grid, row, col, num) or grid[row][col]!=0:
-        row = np.random.randint(9)
-        col = np.random.randint(9)
-        num = np.random.randint(1, 10)
-
-    grid[row][col] = num'''
-
-
-
-'''for y in range (9):
-    for x in range(9):
-        print(grid[y][x])'''
-
-
-#print(grid)
-
-
-
-
-
-
+            # Append new random value in randomly selected coordinates.
+            self.genBoard[coords[0]][coords[1]] = num
