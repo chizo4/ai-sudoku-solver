@@ -15,8 +15,20 @@ Author:
 from time import time
 
 class Solver:
-    def __init__(self, b):
-        self.board = b
+    '''
+    -----------
+    Class to solve a sudoku board.
+    -----------
+    '''
+    def __init__(self, bd):
+        '''
+        Constructor initialized with a generated unsolved sudoku board.
+
+            Parameters:
+                self
+                bd (array) : Generated sudoku board (with size 9x9).
+        '''
+        self.board = bd
 
     def findEmptySpot(self):
         # Iterate through the rows and columns of the board.
