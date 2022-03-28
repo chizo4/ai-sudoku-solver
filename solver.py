@@ -1,6 +1,5 @@
 '''
-SUDOKU SOLVER PROJECT: AI bot implementing the backtracking 
-                       algotrithm to solve sudoku.
+SUDOKU SOLVER PROJECT: AI sudoku solver (implementing backtracking algorithm).
 
 Date created (initial file of the project):
     12/2021
@@ -13,6 +12,7 @@ Author:
 '''
 
 from time import time
+from generator import SudokuGenerator
 
 class SudokuSolver:
     '''
@@ -31,60 +31,68 @@ class SudokuSolver:
         self.board = bd
 
     def findEmptySpot(self):
-        # Iterate through the rows and columns of the board.
-        for row in range(len(self.board)):
-            for col in range(len(self.board[row])):
+        '''
+        Finds the first available empty spot in the board.
+
+            Parameters:
+                self
+        '''
+        for r in range(len(self.board)):
+            for c in range(len(self.board[r])):
                 # Find the first element that is equal to 0. It denotes an empty spot.
-                if (self.board[row][col]==0):
-                    # Return the coordinates of the spot.
-                    return [col, row]
+                if (self.board[r][c]==0):
+                    # Return the coordinates of the found spot.
+                    return (c, r)
 
         # If there are no more empty spots, return False.
         return False
 
-
     def checkIfValid(self, coords, newNum):
-        # Define coordinates.
+        '''
+        Validates a new number to be inserted into the board.
+        '''
         x = coords[0]
         y = coords[1]
 
-        # Check column.
-        # Iterate through the elements of a column.
-        for i in range(len(board)):
+        # Column validation.
+        for c in range(len(self.board)):
             # If a new number already exists in a column and it is in a different
             # position than inserted, it is not valid and cannot be inserted.
-            if (self.board[i][x]==newNum and y!=i):
+            if (self.board[c][x]==newNum and y!=c):
                 return False
 
-        # Check row. 
-        # Iterate through elements of a row.
-        for i in range(len(self.board[0])):
+        # Row validation. 
+        for r in range(len(self.board[0])):
             # If a new number already exists in a row and it is in a different 
             # position than inserted, it is not valid and cannot be inserted.
-            if (self.board[y][i]==newNum and x!=i):
+            if (self.board[y][r]==newNum and x!=r):
                 return False
 
-        # Check 3x3 square.
-        # Determine the square by its coordinates.
-        xSquare = x//3
-        ySquare = y//3
+        # Section validation.
+        # Determine the section by its coordinates.
+        xSec = x//3
+        ySec = y//3
 
-        # Iterate through the elements of a 3x3 square.
-        for row in range(ySquare*3, ySquare*3+3):
-            for col in range(xSquare*3, xSquare*3+3):
-                # If a number exists in the 3x3 square of the board and is 
-                # in a different position than inserted, it is not valid
-                # and cannot be inserted.
-                if (self.board[row][col]==newNum and col!=x and row!=y):
+        # Iterate through the elements of the specified section.
+        for r in range(ySec*3, ySec*3+3):
+            for c in range(xSec*3, xSec*3+3):
+                # If a number exists in the section and is in a different 
+                # position than inserted, it is not valid, ie cannot be inserted.
+                if (self.board[r][c]==newNum and c!=x and r!=y):
                     return False
 
-        # If none of the conditions above were met, the number is valid and 
-        # so can be inserted in the board.
+        # If no conditions met, the number is valid and can be inserted.
         return True
 
-    def solve(self):
+    def runSolver(self):
+        '''
+        Solves a sudoku board using backtracking algorithm.
+
+            Parameters:
+                self
+        '''
         # Find an empty spot in the board.
-        emptySpot = self.findEmptySpot(self.board)
+        emptySpot = self.findEmptySpot()
 
         # If there are no more empty spots to be found, it means that 
         # the board has been solved.
@@ -98,11 +106,11 @@ class SudokuSolver:
         # Iterate through all the possible numbers for the board, i.e. 1-9.
         for n in range(1,10):
             # If a number passes the validity check, append it in the board.
-            if (self.checkIfValid(self.board, coords, n)):
+            if (self.checkIfValid(coords, n)):
                 self.board[y][x] = n
 
                 # Call the function recursively to solve the sudoku furthermore.
-                if self.solveSudoku(self.board):
+                if self.runSolver():
                     return True
 
                 # If something is not correct, backtrack to the last edited 
@@ -121,3 +129,49 @@ class SudokuSolver:
     def stopTimer(start):
         stop = time()
         print(f'Time of execution: {stop-start}\n')
+
+    def __str__(self):
+        '''
+        String representation of the sudoku board.
+
+            Parameters:
+                self
+        '''
+        outputStr = '-------------------------'+'\n'
+
+        # Iterate through the 2D array, display elements separating subareas of the board.
+        for i in range(len(self.board)):
+            if (i!=0 and i%3==0):
+                outputStr += '|-------+-------+-------|'+'\n'
+
+            for j in range(len(self.board[0])):
+                # Display the horizontal lines separating smaller squares of board.
+                if (j!=0 and j%3==0):
+                    outputStr += '| '
+                    #print('| ', end='')
+
+                # Display the values of the board along with outer borders.
+                if (j==0):
+                    outputStr += f'| {self.board[i][j]} '
+                    #print(f'| {self.board[i][j]} ', end='')
+                elif (j==8):
+                    outputStr += f'{self.board[i][j]} |'+'\n'
+                    #print(f'{self.board[i][j]} |')
+                else:
+                    outputStr += f'{self.board[i][j]} '
+                    #print(f'{self.board[i][j]} ', end='')
+
+        outputStr += '-------------------------'
+        #print('-------------------------')
+
+        return outputStr
+
+
+for i in range(10):
+    test = SudokuGenerator()
+    test.runGenerator()
+    print(test.genBoard)
+
+    solver = SudokuSolver(test.genBoard)
+    solver.runSolver()
+    print(solver)

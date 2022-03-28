@@ -11,17 +11,22 @@ Author:
 import numpy as np
 
 class SudokuGenerator:
+    '''
+    -----------
+    Class to generate a sudoku board.
+    -----------
+    '''
     def __init__(self):
         '''
         Constructor for the board generator. Initialized with 9x9 array 
         filled with 0's. numsToAppend denotes the amount of numbers visible 
-        on the generated grid; varies with values of 7-12.
+        on the generated grid; varies with values of 8-12.
 
             Parameters:
                 self
         '''
         self.GRID_SIZE = 9
-        self.numsToAppend = np.random.randint(7,13)
+        self.numsToAppend = np.random.randint(8,12)
         self.genBoard = np.zeros((self.GRID_SIZE, self.GRID_SIZE), dtype=int)
 
     def validate(self, coords, num):
