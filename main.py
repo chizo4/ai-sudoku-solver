@@ -17,10 +17,11 @@ def main():
     Main method to run the sudoku generator and solver.
     '''
     # Specify random number of trails, in range 1-20.
-    trails = np.random.randint(1, 21)
+    trials = np.random.randint(1, 21)
+    runtimes = np.empty(trials)
 
     # Perform the trails.
-    for i in range(trails):
+    for i in range(trials):
         # Instantiate a SudokuGenerator object.
         gen = SudokuGenerator()
         gen.runGenerator()
@@ -35,8 +36,16 @@ def main():
         solved.runSolver()
         print(f'Board #{i+1} after being solved:')
         print(solved)
-        solved.stopTimer()
-        print()
+        timeOneRun = solved.stopTimer()
+        print(f'Time of execution: {timeOneRun:.4f} sec.\n')
+
+        runtimes[i] = timeOneRun
+
+    # Get the average runtime for solving one sudoku.
+    avgTime = np.average(runtimes)
+    print('-----------------------------------------------------------------------------')
+    print(f'Average runtime for solving one sudoku after {trials} trials: {avgTime:.4f} sec.')
+    print('-----------------------------------------------------------------------------')
 
 # Run the main program.
 if (__name__=='__main__'):

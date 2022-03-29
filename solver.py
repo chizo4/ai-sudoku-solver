@@ -154,7 +154,7 @@ class SudokuSolver:
         '''
         self.stop = time()
         # Calculate the delta of the runtime.
-        print(f'Time of execution: {self.stop-self.start:.4f} sec.')
+        return self.stop-self.start
 
     def __str__(self):
         '''
