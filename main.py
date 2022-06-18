@@ -22,29 +22,28 @@ def main():
 
     # Perform the trails.
     for i in range(trials):
-        # Instantiate a SudokuGenerator object.
         gen = SudokuGenerator()
-        gen.runGenerator()
+        gen.run_generator()
 
         # Instantiate a SudokuSolver object using the generated board.
         print(f'Board #{i+1} before being solved:')
-        solved = SudokuSolver(gen.getGenBoard())
+        solved = SudokuSolver(gen.get_gen_board())
         print(solved)
-        solved.setTimer()
 
         # Solve the board and measure the runtime.
-        solved.runSolver()
+        solved.set_timer()
+        solved.run_solver()
         print(f'Board #{i+1} after being solved:')
         print(solved)
-        timeOneRun = solved.stopTimer()
-        print(f'Time of execution: {timeOneRun:.4f} sec.\n')
+        time_one_trial = solved.stop_timer()
+        print(f'Time of execution: {time_one_trial:.4f} sec.\n')
 
-        runtimes[i] = timeOneRun
+        runtimes[i] = time_one_trial
 
     # Get the average runtime for solving one sudoku.
-    avgTime = np.average(runtimes)
+    avg_time = np.average(runtimes)
     print('-----------------------------------------------------------------------------')
-    print(f'Average runtime for solving one sudoku after {trials} trials: {avgTime:.4f} sec.')
+    print(f'Average runtime for solving one sudoku after {trials} trials: {avg_time:.4f} sec.')
     print('-----------------------------------------------------------------------------')
 
 # Run the main program.
