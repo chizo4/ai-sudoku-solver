@@ -1,4 +1,4 @@
-# Sudoku-Solver-Project
+# sudoku-solver 🧠
 
 ### Python implementation of an AI sudoku solver with board generator.
 
