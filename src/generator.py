@@ -1,14 +1,14 @@
 '''
-SUDOKU SOLVER PROJECT: Sudoku board generator.
+generator.py
 
-Date created:
-    03/2022
+Sudoku board generator.
 
-Author:
-    Filip J. Cierkosz
+Author: Filip J. Cierkosz (2022)
 '''
 
+
 import numpy as np
+
 
 class SudokuGenerator:
     '''
@@ -16,6 +16,7 @@ class SudokuGenerator:
     Class to generate a sudoku board.
     -----------
     '''
+
     def __init__(self):
         '''
         Constructor for the board generator. Initialized with 9x9 array 
@@ -58,21 +59,21 @@ class SudokuGenerator:
 
         # Column validation.
         for r in range(9):
-            if (self.gen_board[r][col]==num):
+            if self.gen_board[r][col] == num:
                 return False
 
         # Row validation.
         for c in range(9):
-            if (self.gen_board[row][c]==num):
+            if self.gen_board[row][c] == num:
                 return False
 
         # Section validation.
-        sec_row = row//3
-        sec_col = col//3
+        sec_row = row // 3
+        sec_col = col // 3
 
         for r in range(3):
             for c in range(3):
-                if (self.gen_board[sec_row*3+r][sec_col*3+c]==num):
+                if self.gen_board[sec_row * 3 + r][sec_col * 3 + c] == num:
                     return False
 
         # If none of the conditions were fulfilled, validate the value.
@@ -85,13 +86,11 @@ class SudokuGenerator:
             Parameters:
                 self
         '''
-        for n in range(self.nums_to_append):
-            # Generate random integer 1-9 and coordinates for the grid.
+        for _ in range(self.nums_to_append):
             num = np.random.randint(1, 10)
             coords = (np.random.randint(9), np.random.randint(9))
             
-            while (self.gen_board[coords[0]][coords[1]]!=0 or 
-                    not self.validate(coords, num)):
+            while self.gen_board[coords[0]][coords[1]]!=0 or not self.validate(coords, num):
                 coords = (np.random.randint(9), np.random.randint(9))
                 num = np.random.randint(1, 10)
 

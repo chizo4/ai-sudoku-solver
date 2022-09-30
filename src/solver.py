@@ -1,14 +1,14 @@
 '''
-SUDOKU SOLVER PROJECT: AI sudoku solver (implementing backtracking algorithm).
+solver.py
 
-Date created (initial file of the project):
-    12/2021
+AI sudoku solver (implemented with backtracking algorithm).
 
-Author:
-    Filip J. Cierkosz
+Author: Filip J. Cierkosz (2022)
 '''
 
+
 from time import time
+
 
 class SudokuSolver:
     '''
@@ -16,6 +16,7 @@ class SudokuSolver:
     Class to solve a sudoku board.
     -----------
     '''
+
     def __init__(self, bd):
         '''
         Constructor initialized with a generated unsolved sudoku board.
@@ -40,8 +41,7 @@ class SudokuSolver:
         '''
         for r in range(len(self.board)):
             for c in range(len(self.board[r])):
-                # Find the first available empty spot (denoted by 0).
-                if (self.board[r][c]==0):
+                if self.board[r][c] == 0:
                     return (c, r)
 
         return False
@@ -64,24 +64,24 @@ class SudokuSolver:
         # Column validation: if a new number already exists in a column and 
         # it is in a different position than inserted, then it is not valid.
         for c in range(len(self.board)):
-            if (self.board[c][x]==new_num and y!=c):
+            if self.board[c][x] == new_num and y != c:
                 return False
 
         # Row validation: if a new number already exists in a row and it 
         # is in a different position than inserted, then it is not valid.
         for r in range(len(self.board[0])):
-            if (self.board[y][r]==new_num and x!=r):
+            if self.board[y][r] == new_num and x != r:
                 return False
 
         # Section validation (i.e. 3x3 square).
-        x_sec = x//3
-        y_sec = y//3
+        x_sec = x // 3
+        y_sec = y // 3
 
-        for r in range(y_sec*3, y_sec*3+3):
-            for c in range(x_sec*3, x_sec*3+3):
+        for r in range(y_sec * 3, y_sec * 3 + 3):
+            for c in range(x_sec * 3, x_sec * 3 + 3):
                 # If a number exists in the section and is in a different 
                 # position than inserted, then it is not valid.
-                if (self.board[r][c]==new_num and c!=x and r!=y):
+                if self.board[r][c] == new_num and c != x and r != y:
                     return False
 
         return True
@@ -100,7 +100,7 @@ class SudokuSolver:
 
         # If there are no more empty spots to be found, it means that 
         # the board has been solved.
-        if (not empty_spot):
+        if not empty_spot:
             return True
         else:
             coords = empty_spot
@@ -109,7 +109,7 @@ class SudokuSolver:
 
         for n in range(1,10):
             # If a number passes the validity check, append it in the board.
-            if (self.check_if_valid(coords, n)):
+            if self.check_if_valid(coords, n):
                 self.board[y][x] = n
 
                 # Call the function recursively to furthermore solve sudoku.
@@ -140,7 +140,7 @@ class SudokuSolver:
                 self
         '''
         self.stop = time()
-        return self.stop-self.start
+        return self.stop - self.start
 
     def __str__(self):
         '''
@@ -155,16 +155,16 @@ class SudokuSolver:
         output_str = '-------------------------'+'\n'
 
         for i in range(len(self.board)):
-            if (i!=0 and i%3==0):
+            if i != 0 and (i % 3) == 0:
                 output_str += '|-------+-------+-------|'+'\n'
 
             for j in range(len(self.board[0])):
-                if (j!=0 and j%3==0):
+                if j != 0 and (j % 3) == 0:
                     output_str += '| '
 
-                if (j==0):
+                if j == 0:
                     output_str += f'| {self.board[i][j]} '
-                elif (j==8):
+                elif j == 8:
                     output_str += f'{self.board[i][j]} |'+'\n'
                 else:
                     output_str += f'{self.board[i][j]} '

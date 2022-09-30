@@ -26,17 +26,17 @@ def main():
         gen.run_generator()
 
         # Instantiate a SudokuSolver object using the generated board.
-        print(f'Board #{i + 1} before being solved:')
+        print(f'Board #{i+1} before being solved:')
         solved = SudokuSolver(gen.get_gen_board())
         print(solved)
 
         # Solve the board and measure the runtime.
         solved.set_timer()
         solved.run_solver()
-        print(f'Board #{i + 1} after being solved:')
+        print(f'Board #{i+1} after being solved:')
         print(solved)
         time_one_trial = solved.stop_timer()
-        print(f'Time of execution: {time_one_trial:.4f} sec.\n')
+        print(f'Time of execution: {time_one_trial:.4f} sec.\n\n')
 
         runtimes[i] = time_one_trial
 
@@ -46,7 +46,6 @@ def main():
     print(f'Average runtime for solving one sudoku after {trials} trials: {avg_time:.4f} sec.')
     print('-----------------------------------------------------------------------------')
 
-
 # Run the main program.
-if __name__=='__main__':
+if (__name__=='__main__'):
     main()
