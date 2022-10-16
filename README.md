@@ -1,6 +1,6 @@
 # ```ai-sudoku-solver``` 🧠
 
-### Python implementation of an AI sudoku solver using backtracking. It can be either used as a computer vision solver - processing an input image, running the solver algorithm and output the results in the image, or it can be applied as the backtracking algo tester by using the generator, which instantiates a random valid unsolved sudoku, that is later solved using the same solving technique as for computer vision approach.
+### Python implementation of an AI sudoku solver using the backtracking approach. It can be either used as a computer vision solver - processing an input image, running the solver algorithm and output the results in the image, or it can be applied as the backtracking algo tester by using the generator, which instantiates a random valid unsolved sudoku, that is later solved using the same solving technique as for computer vision approach.
 
 #
 
@@ -34,7 +34,7 @@
 #
 
 ```image_processing.py```:
-- Contains the essential tools for processing an input image that has .
+- Contains the essential tools for processing an input image (the repo contains 5 samples).
 - The functions are invoked in ```main_cv.py``` following the steps:
 1. Preprocess the image by resizing and applying filters, such as: grayscale, adaptive threshold, noise removal, etc.
 2. Transform the plane to extract the sudoku grid from the image.
@@ -45,7 +45,7 @@
 #
 
 ```grid_generator.py```:
-- Contains the ```GridGenerator<``` class, that creates random valid unsolved sudoku grids.
+- Contains the ```GridGenerator``` class, that creates random valid unsolved sudoku grids.
 - Sudokus are generated with the simple logic of validating row/column/section.
 
 #
