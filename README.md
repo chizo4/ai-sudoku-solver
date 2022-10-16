@@ -1,4 +1,4 @@
-# ```sudoku-solver``` 🧠
+# ```sudoku-solver-backtracking``` 🧠
 
 ### Python implementation of an AI sudoku solver with board generator.
 

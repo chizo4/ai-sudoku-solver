@@ -1,7 +1,7 @@
 '''
-generator.py
+src/tools/grid_generator.py
 
-Sudoku board generator.
+Generator for sudoku grids. 
 
 Author: Filip J. Cierkosz (2022)
 '''
@@ -10,7 +10,7 @@ Author: Filip J. Cierkosz (2022)
 import numpy as np
 
 
-class SudokuGenerator:
+class GridGenerator:
     '''
     -----------
     Class to generate a sudoku board.
@@ -28,19 +28,7 @@ class SudokuGenerator:
         '''
         self.GRID_SIZE = 9
         self.nums_to_append = np.random.randint(7,10)
-        self.gen_board = np.zeros((self.GRID_SIZE, self.GRID_SIZE), dtype=int)
-
-    def get_gen_board(self):
-        '''
-        Accessor for the generated board.
-
-            Parameters:
-                self
-
-            Returns:
-                genBoard (np.array) : Generated sudoku board.
-        '''
-        return self.gen_board
+        self.gen_grid = np.zeros((self.GRID_SIZE, self.GRID_SIZE), dtype=int)
 
     def validate(self, coords, num):
         '''
@@ -59,12 +47,12 @@ class SudokuGenerator:
 
         # Column validation.
         for r in range(9):
-            if self.gen_board[r][col] == num:
+            if self.gen_grid[r][col] == num:
                 return False
 
         # Row validation.
         for c in range(9):
-            if self.gen_board[row][c] == num:
+            if self.gen_grid[row][c] == num:
                 return False
 
         # Section validation.
@@ -73,7 +61,7 @@ class SudokuGenerator:
 
         for r in range(3):
             for c in range(3):
-                if self.gen_board[sec_row * 3 + r][sec_col * 3 + c] == num:
+                if self.gen_grid[sec_row * 3 + r][sec_col * 3 + c] == num:
                     return False
 
         # If none of the conditions were fulfilled, validate the value.
@@ -90,9 +78,9 @@ class SudokuGenerator:
             num = np.random.randint(1, 10)
             coords = (np.random.randint(9), np.random.randint(9))
             
-            while self.gen_board[coords[0]][coords[1]]!=0 or not self.validate(coords, num):
+            while self.gen_grid[coords[0]][coords[1]]!=0 or not self.validate(coords, num):
                 coords = (np.random.randint(9), np.random.randint(9))
                 num = np.random.randint(1, 10)
 
             # Append new random value in randomly selected coordinates.
-            self.gen_board[coords[0]][coords[1]] = num
+            self.gen_grid[coords[0]][coords[1]] = num
