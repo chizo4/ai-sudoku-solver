@@ -1,5 +1,5 @@
 '''
-src/solver/solver.py
+src/tools/sudoku_solver.py
 
 Sudoku solver implemented using the backtracking algorithm.
 

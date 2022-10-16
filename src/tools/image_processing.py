@@ -1,7 +1,7 @@
 '''
 src/tools/image_processing.py
 
-Computer vision tools for sudoku images.
+Computer vision tools for sudoku image processing.
 
 Author: Filip J. Cierkosz (2022)
 '''
@@ -102,7 +102,6 @@ def specify_points(coords, size):
     ])
     pts_curr = pts.copy()
     sum_pts = sorted([p[0] + p[1] for p in pts])
-
     for i in range(0, len(sum_pts)):
         for p in pts:
             if p[0] + p[1] == sum_pts[i]:
@@ -117,7 +116,7 @@ def specify_points(coords, size):
                         pts_curr[3] = [p[0], p[1]]
                 except:
                     print('Error - failed to refine points.')
-
+    # Set up new points.
     pts_new = np.float32([
         [0, size],
         [0, 0],
@@ -145,7 +144,6 @@ def classify_digits(img):
     height = img.shape[1]
     w = width // 9
     h = height // 9
-
     # Classify digit for each cell using Pytesseract engine.
     class_digits = []
     for r in range(0, width, w):
@@ -183,7 +181,6 @@ def display_digits(img, uns_grid, sol_grid):
     # Find coords of zeros in the unsolved grid.
     zero_index = np.where(uns_grid == 0)
     zero_coords = list(zip(zero_index[0], zero_index[1]))
-
     # Draw a digit from solved grid if it was previously a zero.
     for coords in zero_coords:
         r, c = coords

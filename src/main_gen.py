@@ -1,5 +1,5 @@
 '''
-main.py
+src/main_gen.py
 
 Main program for running grid generator and sudoku solver.
 
