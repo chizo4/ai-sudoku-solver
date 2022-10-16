@@ -21,6 +21,7 @@ def main(img_path):
     '''
     # Image processing tasks to finally extract digits from sudoku.
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+    cv2.imshow('Unsolved Sudoku', img)
     img = resize_img(img)
     contours = preprocess_img(img)
     img = transform_plane(contours, img)
@@ -31,6 +32,7 @@ def main(img_path):
     solver = SudokuSolver(unsolved)
     solver.run_solver()
     solved_grid = solver.grid
+    print(solved_grid)
     # Display digits and present the results in the final image.
     final_img = display_digits(img, unsolved_grid, solved_grid)
     cv2.imshow('Solved Sudoku', final_img)
