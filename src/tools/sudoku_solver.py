@@ -7,6 +7,7 @@ Author: Filip J. Cierkosz (2022)
 '''
 
 
+import numpy as np
 from time import time
 
 
@@ -23,7 +24,7 @@ class SudokuSolver:
 
             Parameters:
                 self
-                bd (np.array) : input sudoku grid (size 9x9).
+                grid : input sudoku grid (size 9x9).
         '''
         self.grid = grid
         self.start = 0
@@ -39,10 +40,9 @@ class SudokuSolver:
             Returns:
                 (c, r) : tuple of available coordinates.
         '''
-        for r in range(len(self.grid)):
-            for c in range(len(self.grid[r])):
-                if self.grid[r][c] == 0:
-                    return (c, r)
+        for r, c in np.ndindex(self.grid.shape):
+            if self.grid[r][c] == 0:
+                return (c, r)
         return False
 
     def check_if_valid(self, coords, new_num):
@@ -51,8 +51,8 @@ class SudokuSolver:
 
             Parameters:
                 self
-                coords (tuple) : grid coordinates for a new value.
-                newNum (int) : New value to be inserted.
+                coords : grid coordinates for a new value.
+                new_num : new value to be inserted.
 
             Returns:
                 boolean
@@ -102,21 +102,17 @@ class SudokuSolver:
             return True
         else:
             coords = empty_spot
-            x = coords[0]
-            y = coords[1]
+            x, y = coords
 
-        for n in range(1,10):
+        for n in range(1, 10):
             if self.check_if_valid(coords, n):
                 self.grid[y][x] = n
-
                 # Call the function recursively to furthermore solve sudoku.
                 if self.run_solver():
                     return True
-
                 # If something went incorrect, backtrack to the last edited 
                 # element and reset it to 0.
                 self.grid[y][x] = 0
-
         return False
 
     def set_timer(self):
@@ -137,7 +133,8 @@ class SudokuSolver:
                 self
         '''
         self.stop = time()
-        return self.stop - self.start
+        delta = self.stop - self.start
+        return delta
 
     def __str__(self):
         '''
@@ -147,24 +144,20 @@ class SudokuSolver:
                 self
 
             Returns:
-                outputStr (str) : String representation for a sudoku grid.
+                output_str : string representation for a sudoku.
         '''
         output_str = '-------------------------'+'\n'
-
         for i in range(len(self.grid)):
             if i != 0 and (i % 3) == 0:
                 output_str += '|-------+-------+-------|'+'\n'
-
             for j in range(len(self.grid[0])):
                 if j != 0 and (j % 3) == 0:
                     output_str += '| '
-
                 if j == 0:
                     output_str += f'| {self.grid[i][j]} '
                 elif j == 8:
                     output_str += f'{self.grid[i][j]} |'+'\n'
                 else:
                     output_str += f'{self.grid[i][j]} '
-
         output_str += '-------------------------'
         return output_str
