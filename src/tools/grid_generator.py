@@ -1,7 +1,7 @@
 '''
 src/tools/grid_generator.py
 
-Generator for sudoku grids. 
+Generator for sudoku grids (non-CV part). 
 
 Author: Filip J. Cierkosz (2022)
 '''
@@ -13,21 +13,21 @@ import numpy as np
 class GridGenerator:
     '''
     -----------
-    Class to generate a sudoku board.
+    Class to generate a sudoku board (non-computer-vision part).
     -----------
     '''
 
     def __init__(self):
         '''
         Constructor for the board generator. Initialized with 9x9 array 
-        filled with 0's. numsToAppend denotes the amount of numbers visible 
+        filled with 0's. nums_to_apend denote the amount of numbers visible 
         on the generated grid; varies with values of 7-9.
 
             Parameters:
                 self
         '''
         self.GRID_SIZE = 9
-        self.nums_to_append = np.random.randint(7,10)
+        self.nums_to_append = np.random.randint(7, 10)
         self.gen_grid = np.zeros((self.GRID_SIZE, self.GRID_SIZE), dtype=int)
 
     def validate(self, coords, num):
@@ -35,8 +35,8 @@ class GridGenerator:
         Validates a new number to be added to the grid.
 
             Parameters:
-                coords (tuple) : Tuple containing x and y coordinates.
-                num (int) : New integer to be inserted.
+                coords : tuple containing x and y coordinates.
+                num : new integer to be inserted.
                 self
 
             Returns:
@@ -46,14 +46,12 @@ class GridGenerator:
         col = coords[1]
 
         # Column validation.
-        for r in range(9):
-            if self.gen_grid[r][col] == num:
-                return False
+        if len(np.where(self.gen_grid[:, col] == num)[0]):
+            return False
 
         # Row validation.
-        for c in range(9):
-            if self.gen_grid[row][c] == num:
-                return False
+        if len(np.where(self.gen_grid[row, :] == num)[0]):
+            return False
 
         # Section validation.
         sec_row = row // 3
@@ -69,7 +67,7 @@ class GridGenerator:
 
     def run_generator(self):
         '''
-        Generates a sudoku board, also calling validation functions.
+        Generates a sudoku board, incl. calling validation functions.
 
             Parameters:
                 self
@@ -78,7 +76,7 @@ class GridGenerator:
             num = np.random.randint(1, 10)
             coords = (np.random.randint(9), np.random.randint(9))
             
-            while self.gen_grid[coords[0]][coords[1]]!=0 or not self.validate(coords, num):
+            while self.gen_grid[coords[0]][coords[1]] != 0 or not self.validate(coords, num):
                 coords = (np.random.randint(9), np.random.randint(9))
                 num = np.random.randint(1, 10)
 
